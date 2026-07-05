@@ -121,6 +121,7 @@ public class Notes {
 		TRAPS_FLOOR,
 		SECRETS_FLOOR,
 		DOOM_FLOOR,
+		DEMENTIA_FLOOR,
 
 		SHOP,
 		ALCHEMY,

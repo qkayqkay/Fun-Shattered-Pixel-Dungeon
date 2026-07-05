@@ -259,8 +259,7 @@ public abstract class Level implements Bundlable {
 			
 			if (Dungeon.depth > 1) {
 				//50% chance of getting a level feeling
-				//~7.15% chance for each feeling
-				switch (Random.Int( 14 )) {
+				switch (Random.Int( 16 )) {
 					case 0:
 						feeling = Feeling.DOOM;
 						break;
@@ -284,6 +283,9 @@ public abstract class Level implements Bundlable {
 					case 6:
 						feeling = Feeling.SECRETS;
 						break;
+					case 7:
+						feeling = Feeling.DEMENTIA;
+						break;
 
 					default:
 						//if-else statements are fine here as only one chance can be above 0 at a time
@@ -295,6 +297,8 @@ public abstract class Level implements Bundlable {
 							feeling = Feeling.NONE;
 						}
 				}
+			} else {
+				feeling = Feeling.DEMENTIA; // For testing
 			}
 		}
 		

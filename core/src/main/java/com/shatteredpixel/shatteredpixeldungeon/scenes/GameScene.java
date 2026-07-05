@@ -36,7 +36,9 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.ChampionEnemy;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Forgetful;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DemonSpawner;
@@ -693,6 +695,12 @@ public class GameScene extends PixelScene {
 					GLog.w(Dungeon.level.feeling.desc());
 					Notes.add(Notes.Landmark.DOOM_FLOOR);
 					break;
+				case DEMENTIA:
+					GLog.w(Dungeon.level.feeling.desc());
+					Buff.affect(Dungeon.hero, Forgetful.class);
+					Notes.add(Notes.Landmark.DEMENTIA_FLOOR);
+					break;
+
 			}
 
 			for (Mob mob : Dungeon.level.mobs) {

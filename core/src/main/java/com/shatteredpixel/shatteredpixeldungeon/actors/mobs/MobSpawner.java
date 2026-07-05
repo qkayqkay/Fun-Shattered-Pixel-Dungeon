@@ -74,7 +74,7 @@ public class MobSpawner extends Actor {
 			// Sewers
 			case 1: default:
 				//3x rat, 1x snake
-				return new ArrayList<>(Arrays.asList(Slime.class, Slime.class,
+				return new ArrayList<>(Arrays.asList(Swarm.class, Swarm.class,
 						Rat.class, Rat.class, Rat.class,
 						Snake.class));
 			case 2:

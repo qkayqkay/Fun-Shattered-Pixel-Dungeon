@@ -41,6 +41,7 @@ import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.WheelScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ShopkeeperSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.CurrencyIndicator;
@@ -242,9 +243,10 @@ public class Shopkeeper extends NPC {
 		Game.runOnRenderThread(new Callback() {
 			@Override
 			public void call() {
-				String[] options = new String[2+ buybackItems.size()];
+				String[] options = new String[3+ buybackItems.size()];
 				int maxLen = PixelScene.landscape() ? 30 : 25;
 				int i = 0;
+				options[i++] = Messages.get(Shopkeeper.this, "gamble");
 				options[i++] = Messages.get(Shopkeeper.this, "sell");
 				options[i++] = Messages.get(Shopkeeper.this, "talk");
 				for (Item item : buybackItems){
@@ -257,11 +259,14 @@ public class Shopkeeper extends NPC {
 					@Override
 					protected void onSelect(int index) {
 						super.onSelect(index);
-						if (index == 0){
+						if(index == 0){
+							Game.switchScene(WheelScene.class);
+						}
+						if (index == 1){
 							sell();
-						} else if (index == 1){
+						} else if (index == 2){
 							GameScene.show(new WndTitledMessage(sprite(), Messages.titleCase(name()), chatText()));
-						} else if (index > 1){
+						} else if (index > 2){
 							GLog.i(Messages.get(Shopkeeper.this, "buyback"));
 							Item returned = buybackItems.remove(index-2);
 							Dungeon.gold -= returned.value();
@@ -277,7 +282,7 @@ public class Shopkeeper extends NPC {
 
 					@Override
 					protected boolean enabled(int index) {
-						if (index > 1){
+						if (index > 2){
 							return Dungeon.gold >= buybackItems.get(index-2).value();
 						} else {
 							return super.enabled(index);
@@ -286,12 +291,12 @@ public class Shopkeeper extends NPC {
 
 					@Override
 					protected boolean hasIcon(int index) {
-						return index > 1;
+						return index > 2;
 					}
 
 					@Override
 					protected Image getIcon(int index) {
-						if (index > 1){
+						if (index > 2){
 							return new ItemSprite(buybackItems.get(index-2));
 						}
 						return null;

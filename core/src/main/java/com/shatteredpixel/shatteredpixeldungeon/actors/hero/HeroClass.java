@@ -84,6 +84,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.ThrowingSt
 import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Blindweed;
+import com.shatteredpixel.shatteredpixeldungeon.zrp200.scrollofdebug.ScrollOfDebug;
 import com.watabou.utils.DeviceCompat;
 
 public enum HeroClass {
@@ -114,6 +115,9 @@ public enum HeroClass {
 
 		i = new Blindweed.Seed();
 		i.collect();
+
+		ScrollOfDebug scrollOfDebug = new ScrollOfDebug();
+		scrollOfDebug.collect();
 
 		ClothArmor armor = new ClothArmor();
 		armor.glyph = new Stench();

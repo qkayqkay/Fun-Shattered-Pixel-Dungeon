@@ -27,6 +27,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Poison;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Pushing;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
@@ -53,7 +54,40 @@ public class Swarm extends Mob {
 		loot = PotionOfHealing.class;
 		lootChance = 0.1667f; //by default, see lootChance()
 	}
-	
+
+	@Override
+	protected boolean act() {
+		if(Random.Float() > 0.9f && Dungeon.level.heroFOV[pos] && state == HUNTING && HP >= 2) { // 50% chance and in players field of view
+			ArrayList<Integer> candidates = new ArrayList<>();
+
+			int[] neighbours = {pos + 1, pos - 1, pos + Dungeon.level.width(), pos - Dungeon.level.width()};
+			for (int n : neighbours) {
+				if (!Dungeon.level.solid[n]
+						&& Actor.findChar(n) == null
+						&& (Dungeon.level.passable[n] || Dungeon.level.avoid[n])
+						&& (!properties().contains(Property.LARGE) || Dungeon.level.openSpace[n])) {
+					candidates.add(n);
+				}
+			}
+
+			if (candidates.size() > 0) {
+
+				Swarm clone = split();
+				clone.pos = Random.element(candidates);
+				clone.state = clone.HUNTING;
+				GameScene.add(clone, SPLIT_DELAY); //we add before assigning HP due to ascension
+
+				clone.HP = (HP) / 2;
+				Actor.add(new Pushing(clone, pos, clone.pos));
+
+				Dungeon.level.occupyCell(clone);
+
+				HP -= clone.HP;
+			}
+		}
+		return super.act();
+	}
+
 	private static final float SPLIT_DELAY	= 1f;
 	
 	int generation	= 0;

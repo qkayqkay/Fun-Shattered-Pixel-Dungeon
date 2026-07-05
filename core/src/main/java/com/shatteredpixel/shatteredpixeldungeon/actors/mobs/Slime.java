@@ -26,7 +26,11 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.wands.WandOfBlastWave;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.SpiritBow;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.shatteredpixel.shatteredpixeldungeon.mechanics.Ballistica;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.SlimeSprite;
 import com.watabou.utils.Random;
 
@@ -53,7 +57,47 @@ public class Slime extends Mob {
 	public int attackSkill( Char target ) {
 		return 12;
 	}
-	
+
+	@Override
+	public int attackProc(Char enemy, int damage) {
+		damage = super.attackProc(enemy, damage);
+
+		if(Random.Float() > 0.75) {
+			//trace a ballistica to our target (which will also extend past them
+			Ballistica trajectory = new Ballistica(pos, enemy.pos, Ballistica.STOP_TARGET);
+			//trim it to just be the part that goes past them
+			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size() - 1), Ballistica.PROJECTILE);
+			//knock them back along that ballistica
+			WandOfBlastWave.throwChar(enemy,
+					trajectory,
+					2,
+					true,
+					true,
+					this);
+		}
+
+		return damage;
+
+	}
+
+	@Override
+	public int defenseProc(Char enemy, int damage) {
+		damage = super.defenseProc( enemy, damage );
+
+		if(Random.Float() > 0.75) {
+			Ballistica trajectory = new Ballistica(enemy.pos, pos, Ballistica.STOP_TARGET);
+			trajectory = new Ballistica(trajectory.collisionPos, trajectory.path.get(trajectory.path.size() - 1), Ballistica.PROJECTILE);
+
+			WandOfBlastWave.throwChar(this,
+					trajectory,
+					2,
+					true,
+					true,
+					this);
+		}
+		return damage;
+	}
+
 	@Override
 	public void damage(int dmg, Object src) {
 		float scaleFactor = AscensionChallenge.statModifier(this);

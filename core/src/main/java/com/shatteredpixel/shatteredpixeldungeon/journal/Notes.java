@@ -176,6 +176,8 @@ public class Notes {
 					return Icons.STAIRS_SECRETS.get();
 				case DOOM_FLOOR:
 					return Icons.STAIRS_SECRETS.get(); // TODO make icons
+				case DEMENTIA_FLOOR:
+					return Icons.STAIRS_SECRETS.get(); // This could be the same as secrets, but with a red question mark instead of blue
 
 				case SHOP:
 					if (depth == 20)    return new Image(new ImpSprite());
@@ -228,6 +230,7 @@ public class Notes {
 				case TRAPS_FLOOR:   return Messages.get(Level.Feeling.class, "traps_title");
 				case SECRETS_FLOOR: return Messages.get(Level.Feeling.class, "secrets_title");
 				case DOOM_FLOOR: return Messages.get(Level.Feeling.class, "doom_title");
+				case DEMENTIA_FLOOR: return Messages.get(Level.Feeling.class, "dementia_title");
 
 				case LOST_PACK:     return Messages.get(LostBackpack.class, "name");
 				case BEACON_LOCATION:return Messages.get(BeaconOfReturning.class, "name");
@@ -247,6 +250,7 @@ public class Notes {
 				case TRAPS_FLOOR:   return Messages.get(Level.Feeling.class, "traps_desc");
 				case SECRETS_FLOOR: return Messages.get(Level.Feeling.class, "secrets_desc");
 				case DOOM_FLOOR: return Messages.get(Level.Feeling.class, "doom_desc");
+				case DEMENTIA_FLOOR: return Messages.get(Level.Feeling.class, "dementia_desc");
 
 				case SHOP:
 					if (depth == 20)    return Messages.get(ImpShopkeeper.class, "desc");

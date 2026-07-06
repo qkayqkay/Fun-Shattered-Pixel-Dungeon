@@ -32,7 +32,15 @@ public class ClothArmor extends Armor {
 	}
 	
 	public ClothArmor() {
-		super( 1 );
+		super( 2 );
 	}
 
+	@Override
+	public int STRReq(int lvl){
+		int req = STRReq(1, lvl);
+		if (masteryPotionBonus){
+			req -= 2;
+		}
+		return req;
+	}
 }

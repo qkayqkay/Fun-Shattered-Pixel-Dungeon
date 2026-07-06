@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Fire;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Burning;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Rabies;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Talent;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Splash;
@@ -285,16 +286,40 @@ public class Potion extends Item {
 	}
 	
 	protected void drink( Hero hero ) {
-		
-		detach( hero.belongings.backpack );
-		
-		hero.spend( TIME_TO_DRINK );
-		hero.busy();
-		apply( hero );
-		
-		Sample.INSTANCE.play( Assets.Sounds.DRINK );
-		
-		hero.sprite.operate( hero.pos );
+		Rabies rab = hero.buff(Rabies.class);
+		int drinkResult = 0;
+		if (rab != null) {
+			drinkResult = rab.attemptDrink();
+		}
+
+		if(drinkResult == 0) {
+			detach(hero.belongings.backpack);
+
+			hero.spend(TIME_TO_DRINK);
+			hero.busy();
+			apply(hero);
+
+			Sample.INSTANCE.play(Assets.Sounds.DRINK);
+
+			hero.sprite.operate(hero.pos);
+		}
+		else if(drinkResult == 1){
+			hero.spend(TIME_TO_DRINK);
+			hero.busy();
+
+			Sample.INSTANCE.play(Assets.Sounds.HEALTH_WARN);
+
+			hero.sprite.operate(hero.pos);
+		}
+		else if(drinkResult == 2){
+			hero.spend(TIME_TO_DRINK);
+			hero.busy();
+			shatter(hero.pos);
+
+			Sample.INSTANCE.play(Assets.Sounds.SHATTER);
+
+			hero.sprite.attack(hero.pos);
+		}
 
 		if (!anonymous) {
 			Catalog.countUse(getClass());

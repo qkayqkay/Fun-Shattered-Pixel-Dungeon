@@ -23,6 +23,8 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Rabies;
 import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
@@ -32,6 +34,7 @@ import com.watabou.utils.Random;
 
 public class Bat extends Mob {
 
+	public boolean hasRabies;
 	{
 		spriteClass = BatSprite.class;
 		
@@ -46,6 +49,9 @@ public class Bat extends Mob {
 		
 		loot = PotionOfHealing.class;
 		lootChance = 0.1667f; //by default, see lootChance()
+
+		hasRabies = Random.Float() > 0.5f; // 50% chance
+
 	}
 	
 	@Override
@@ -78,6 +84,10 @@ public class Bat extends Mob {
 			HP += reg;
 			sprite.showStatusWithIcon(CharSprite.POSITIVE, Integer.toString(reg), FloatingText.HEALING);
 		}
+		if(hasRabies && Random.Float() > 0.3){ // 70% chance to get infected
+			Buff.affect(enemy, Rabies.class);
+		}
+
 		
 		return damage;
 	}

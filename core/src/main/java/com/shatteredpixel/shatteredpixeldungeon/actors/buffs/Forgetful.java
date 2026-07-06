@@ -32,7 +32,7 @@ public class Forgetful extends Buff {
 
     @Override
     public boolean act() {
-        if (!(target instanceof Hero) || Dungeon.level.feeling != Level.Feeling.DEMENTIA) {
+        if (!(target instanceof Hero) || Dungeon.level.feeling != Level.Feeling.AMNESIA) {
             detach();
             return true;
         }

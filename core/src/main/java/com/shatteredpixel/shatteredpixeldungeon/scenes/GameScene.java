@@ -695,10 +695,10 @@ public class GameScene extends PixelScene {
 					GLog.w(Dungeon.level.feeling.desc());
 					Notes.add(Notes.Landmark.DOOM_FLOOR);
 					break;
-				case DEMENTIA:
+				case AMNESIA:
 					GLog.w(Dungeon.level.feeling.desc());
 					Buff.affect(Dungeon.hero, Forgetful.class);
-					Notes.add(Notes.Landmark.DEMENTIA_FLOOR);
+					Notes.add(Notes.Landmark.AMNESIA_FLOOR);
 					break;
 
 			}

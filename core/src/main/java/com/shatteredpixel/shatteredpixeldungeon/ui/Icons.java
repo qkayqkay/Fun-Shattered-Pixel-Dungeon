@@ -96,6 +96,9 @@ public enum Icons {
 	STAIRS_LARGE,
 	STAIRS_TRAPS,
 	STAIRS_SECRETS,
+	STAIRS_DOOM,
+	STAIRS_AMNESIA,
+
 	WELL_HEALTH,
 	WELL_AWARENESS,
 	SACRIFICE_ALTAR,
@@ -117,6 +120,8 @@ public enum Icons {
 	DEPTH_LARGE,
 	DEPTH_TRAPS,
 	DEPTH_SECRETS,
+	DEPTH_DOOM,
+	DEPTH_AMNESIA,
 	CHAL_COUNT,
 	COIN_SML,
 	ENERGY_SML,
@@ -319,17 +324,23 @@ public enum Icons {
 			case STAIRS_SECRETS:
 				icon.frame( icon.texture.uvRectBySize( 112, 64, 15, 16 ) );
 				break;
+			case STAIRS_DOOM:
+				icon.frame( icon.texture.uvRectBySize( 112+16, 64, 15, 16 ) );
+				break;
+			case STAIRS_AMNESIA:
+				icon.frame( icon.texture.uvRectBySize( 112+32, 64, 15, 16 ) );
+				break;
 			case WELL_HEALTH:
-				icon.frame( icon.texture.uvRectBySize( 128, 64, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 128+64, 64, 16, 16 ) );
 				break;
 			case WELL_AWARENESS:
-				icon.frame( icon.texture.uvRectBySize( 144, 64, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 144+64, 64, 16, 16 ) );
 				break;
 			case SACRIFICE_ALTAR:
-				icon.frame( icon.texture.uvRectBySize( 160, 64, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 160+64, 64, 16, 16 ) );
 				break;
 			case DISTANT_WELL:
-				icon.frame( icon.texture.uvRectBySize( 176, 64, 16, 16 ) );
+				icon.frame( icon.texture.uvRectBySize( 176+64, 64, 16, 16 ) );
 				break;
 
 			case SKULL:
@@ -377,29 +388,35 @@ public enum Icons {
 			case DEPTH_SECRETS:
 				icon.frame( icon.texture.uvRectBySize( 88 + runTypeOfsX(), 80 + runTypeOfsY(), 7, 7 ) );
 				break;
+			case DEPTH_DOOM:
+				icon.frame( icon.texture.uvRectBySize( 96 + runTypeOfsX(), 80 + runTypeOfsY(), 7, 7 ) );
+				break;
+			case DEPTH_AMNESIA:
+				icon.frame( icon.texture.uvRectBySize( 104 + runTypeOfsX(), 80 + runTypeOfsY(), 7, 7 ) );
+				break;
 			case CHAL_COUNT:
-				icon.frame( icon.texture.uvRectBySize( 160, 80, 7, 7 ) );
+				icon.frame( icon.texture.uvRectBySize( 224, 80, 7, 7 ) );
 				break;
 			case COIN_SML:
-				icon.frame( icon.texture.uvRectBySize( 168, 80, 7, 7 ) );
+				icon.frame( icon.texture.uvRectBySize( 232, 80, 7, 7 ) );
 				break;
 			case ENERGY_SML:
-				icon.frame( icon.texture.uvRectBySize( 168, 88, 8, 7 ) );
+				icon.frame( icon.texture.uvRectBySize( 232, 88, 8, 7 ) );
 				break;
 			case BACKPACK:
-				icon.frame( icon.texture.uvRectBySize( 176, 80, 10, 10 ) );
+				icon.frame( icon.texture.uvRectBySize( 240, 80, 10, 10 ) );
 				break;
 			case SCROLL_HOLDER:
-				icon.frame( icon.texture.uvRectBySize( 186, 80, 10, 10 ) );
+				icon.frame( icon.texture.uvRectBySize( 250, 80, 10, 10 ) );
 				break;
 			case SEED_POUCH:
-				icon.frame( icon.texture.uvRectBySize( 196, 80, 10, 10 ) );
+				icon.frame( icon.texture.uvRectBySize( 260, 80, 10, 10 ) );
 				break;
 			case WAND_HOLSTER:
-				icon.frame( icon.texture.uvRectBySize( 206, 80, 10, 10 ) );
+				icon.frame( icon.texture.uvRectBySize( 270, 80, 10, 10 ) );
 				break;
 			case POTION_BANDOLIER:
-				icon.frame( icon.texture.uvRectBySize( 216, 80, 10, 10 ) );
+				icon.frame( icon.texture.uvRectBySize( 280, 80, 10, 10 ) );
 				break;
 		
 			case LIBGDX:
@@ -439,7 +456,7 @@ public enum Icons {
 	}
 
 	private static int runTypeOfsX(){
-		return Dungeon.daily ? 64 : 0;
+		return Dungeon.daily ? 96 : 0;
 	}
 
 	private static int runTypeOfsY(){
@@ -493,6 +510,10 @@ public enum Icons {
 				return get(DEPTH_TRAPS);
 			case SECRETS:
 				return get(DEPTH_SECRETS);
+			case DOOM:
+				return get(DEPTH_DOOM);
+			case AMNESIA:
+				return get(DEPTH_AMNESIA);
 		}
 	}
 
@@ -514,6 +535,10 @@ public enum Icons {
 				return get(STAIRS_TRAPS);
 			case SECRETS:
 				return get(STAIRS_SECRETS);
+			case DOOM:
+				return get(STAIRS_DOOM);
+			case AMNESIA:
+				return get(STAIRS_AMNESIA);
 		}
 	}
 }

@@ -132,8 +132,7 @@ public abstract class Level implements Bundlable {
 		TRAPS,
 		SECRETS,
 		DOOM,
-		DEMENTIA,
-		MOLE;
+		AMNESIA;
 
 		public String title(){
 			return Messages.get(this, name()+"_title");
@@ -284,7 +283,7 @@ public abstract class Level implements Bundlable {
 						feeling = Feeling.SECRETS;
 						break;
 					case 7:
-						feeling = Feeling.DEMENTIA;
+						feeling = Feeling.AMNESIA;
 						break;
 
 					default:
@@ -298,7 +297,16 @@ public abstract class Level implements Bundlable {
 						}
 				}
 			} else {
-				feeling = Feeling.DEMENTIA; // For testing
+				feeling = Feeling.AMNESIA; // For testing
+			}
+			if(Dungeon.depth == 1){
+				feeling = Feeling.AMNESIA;
+			}
+			if(Dungeon.depth == 2){
+				feeling = Feeling.DOOM;
+			}
+			if(Dungeon.depth == 3){
+				feeling = Feeling.SECRETS;
 			}
 		}
 		
@@ -532,8 +540,7 @@ public abstract class Level implements Bundlable {
 
 	public void triggerDoom(){
 		String key = "doom_warning" + doomWarningIndex;
-		GLog.i(key);
-		GLog.i(Messages.get(Level.Feeling.class, key));
+		GLog.n(Messages.get(Level.Feeling.class, key));
 		doomWarningIndex = Math.min(doomWarningIndex+1, 7);
 	}
 

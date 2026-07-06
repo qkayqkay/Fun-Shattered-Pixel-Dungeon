@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.SnakeSprite;
 import com.watabou.utils.Random;
@@ -68,5 +69,23 @@ public class Snake extends Mob {
 			dodges = 0;
 		}
 		return super.defenseVerb();
+	}
+
+	private static boolean INSPECTED = false;
+
+	@Override
+	public String description() {
+		if (!INSPECTED) {
+			INSPECTED = true;
+			return Messages.get(this, "desc2");
+		} else {
+			return super.description();
+		}
+	}
+
+	@Override
+	public void damage(int dmg, Object src) {
+		if (!INSPECTED) dmg = 0;
+		super.damage(dmg, src);
 	}
 }

@@ -106,6 +106,7 @@ public class FloatingText extends RenderedTextBlock {
 	//currency icons
 	public static int GOLD      = 23;
 	public static int ENERGY    = 24;
+	public static int RABIES    = 25;
 
 	//hit reason icons
 	public static int HIT_WEP   = 36;

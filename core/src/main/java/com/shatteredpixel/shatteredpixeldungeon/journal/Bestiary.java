@@ -255,6 +255,13 @@ public enum Bestiary {
 				WandOfRegrowth.Dewcatcher.class, WandOfRegrowth.Seedpod.class, WandOfRegrowth.Lotus.class);
 
 	}
+	static {
+		for (Bestiary cat : values()){
+			for (Class<?> entity : cat.entities()){
+				cat.seen.put(entity, true);
+			}
+		}
+	}
 
 	//some mobs and traps have different internal classes in some cases, so need to convert here
 	private static final HashMap<Class<?>, Class<?>> classConversions = new HashMap<>();

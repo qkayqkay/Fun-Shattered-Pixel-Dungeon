@@ -262,6 +262,13 @@ public enum Catalog {
 				SealShard.class, BrokenStaff.class, CloakScrap.class, BowFragment.class, BrokenHilt.class, TornPage.class);
 
 	}
+	static {
+		for (Catalog cat : values()){
+			for (Class<?> item : cat.items()){
+				cat.seen.put(item, true);
+			}
+		}
+	}
 
 	//old badges for pre-2.5
 	public static LinkedHashMap<Catalog, Badges.Badge> catalogBadges = new LinkedHashMap<>();

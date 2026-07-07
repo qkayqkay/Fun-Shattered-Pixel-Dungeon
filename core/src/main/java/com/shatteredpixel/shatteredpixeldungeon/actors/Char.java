@@ -968,7 +968,7 @@ public abstract class Char extends Actor {
 			if (src instanceof ToxicGas)                                icon = FloatingText.TOXIC;
 			if (src instanceof Corrosion)                               icon = FloatingText.CORROSION;
 			if (src instanceof Poison)                                  icon = FloatingText.POISON;
-			if (src instanceof Rabies)                                  icon = FloatingText.POISON; //todo maybe an icon?
+			if (src instanceof Rabies)                                  icon = FloatingText.RABIES; //todo maybe an icon?
 			if (src instanceof Ooze)                                    icon = FloatingText.OOZE;
 			if (src instanceof Viscosity.DeferedDamage)                 icon = FloatingText.DEFERRED;
 			if (src instanceof Corruption)                              icon = FloatingText.CORRUPTION;

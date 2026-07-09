@@ -69,8 +69,15 @@ public class HeroSprite extends CharSprite {
 	}
 	
 	public void updateArmor() {
+		int armorTier = Dungeon.hero.tier();
+		if(armorTier == 2){ // swap the armor tiers for the visuals
+			armorTier = 1;
+		}
+		else if(armorTier == 1){
+			armorTier = 2;
+		}
 
-		TextureFilm film = new TextureFilm( tiers(), Dungeon.hero.tier(), FRAME_WIDTH, FRAME_HEIGHT );
+		TextureFilm film = new TextureFilm( tiers(), armorTier, FRAME_WIDTH, FRAME_HEIGHT );
 		
 		idle = new Animation( 1, true );
 		idle.frames( film, 0, 0, 0, 1, 0, 0, 1, 1 );

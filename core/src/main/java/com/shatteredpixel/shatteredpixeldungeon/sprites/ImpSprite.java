@@ -28,9 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.Blob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.blobs.CorrosiveGas;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.AscensionChallenge;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Ooze;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.DM100;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.ImpBoss;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -44,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.watabou.glwrap.Texture;
 import com.watabou.noosa.TextureFilm;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
@@ -53,10 +52,11 @@ import com.watabou.utils.Random;
 
 public class ImpSprite extends MobSprite {
 
+	public TextureFilm frames;
 	public ImpSprite() {
 		super();
 		texture( Assets.Sprites.IMP );
-		TextureFilm frames = new TextureFilm( texture, 12, 14 );
+		frames = new TextureFilm( texture, 12, 14 );
 
 		idle = new Animation( 10, true );
 		idle.frames( frames,
@@ -73,7 +73,7 @@ public class ImpSprite extends MobSprite {
 		zap.frames( frames, 1, 2, 3 );
 
 		die = new Animation( 10, false );
-		die.frames( frames, 0, 3, 2, 1, 0, 3, 2, 1, 0 );
+		die.frames( frames, 5, 6, 7, 8, 9, 10, 11 );
 
 		play( idle );
 	}
@@ -84,102 +84,27 @@ public class ImpSprite extends MobSprite {
 	}
 
 	@Override
-	public synchronized void zap( int cell, Callback callback ) {
+	public synchronized void zap( int cell, final Callback callback ) {
 		turnTo( ch.pos, cell );
-		play( zap ); // purely cosmetic cast animation, doesn't drive turn release
+		play( zap );
 
-		ImpBoss boss = (ImpBoss) ch;
-		switch (boss.currentWand) {
-			case ImpBoss.CORROSION_WAND:      zapCorrosion(cell, callback);     break;
-			case ImpBoss.MAGIC_MISSILE_WAND:  zapMagicMissile(cell, callback);  break;
-			case ImpBoss.LIGHTNING_WAND:
-			default:                          zapLightning(cell, callback);     break;
-		}
-	}
+		final ImpBoss boss = (ImpBoss) ch;
+		int boltType = boss.wandBoltType();
 
-	private void zapLightning( int cell, Callback callback ) {
-		applyLightningDamage(cell);
-		if (callback != null) callback.call(); // this is an instant effect, so release turn now
-	}
-
-	private void zapCorrosion( final int cell, final Callback callback ) {
-		MagicMissile.boltFromChar(parent, MagicMissile.CORROSION, this, cell, new Callback() {
-			@Override
-			public void call() {
-				applyCorrosionEffect(cell);
-				if (callback != null) callback.call(); // compared to lightning, coro is bolt, so apply effect and then release turn
-			}
-		});
-		Sample.INSTANCE.play(Assets.Sounds.GAS);
-	}
-
-	private void zapMagicMissile( final int cell, final Callback callback ) {
-		MagicMissile.boltFromChar(parent, MagicMissile.MAGIC_MISSILE, this, cell, new Callback() {
-			@Override
-			public void call() {
-				applyMagicMissileDamage(cell);
-				if (callback != null) callback.call();
-			}
-		});
-		Sample.INSTANCE.play(Assets.Sounds.ZAP);
-	}
-
-
-	private void applyLightningDamage( int cell ) {
-		ImpBoss boss = (ImpBoss) ch;
-		Char enemy = Actor.findChar(cell);
-		if (enemy == null) return;
-
-		if (boss.hit(boss, enemy, true)) {
-			int dmg = Random.NormalIntRange(3, 10);
-			dmg = Math.round(dmg * AscensionChallenge.statModifier(boss));
-			enemy.damage(dmg, new ImpBoss.LightningBolt());
-
-			if (enemy.sprite.visible) {
-				enemy.sprite.centerEmitter().burst(SparkParticle.FACTORY, 3);
-				enemy.sprite.flash();
-			}
-			if (enemy == Dungeon.hero) {
-				PixelScene.shake(2, 0.3f);
-				if (!enemy.isAlive()) {
-					Badges.validateDeathFromEnemyMagic();
-					Dungeon.fail(boss);
-					GLog.n(Messages.get(boss, "zap_kill"));
+		if (boltType < 0) {
+			boss.resolveWandEffect(cell);
+			if (callback != null) callback.call();
+		} else {
+			MagicMissile.boltFromChar(parent, boltType, this, cell, new Callback() {
+				@Override
+				public void call() {
+					boss.resolveWandEffect(cell);
+					if (callback != null) callback.call();
 				}
-			}
-		} else {
-			enemy.sprite.showStatus(CharSprite.NEUTRAL, enemy.defenseVerb());
+			});
 		}
 	}
 
-	private void applyCorrosionEffect( int cell ) {
-		CorrosiveGas gas = Blob.seed(cell, 50, CorrosiveGas.class);
-		CellEmitter.get(cell).burst(Speck.factory(Speck.CORROSION), 10);
-		gas.setStrength(2, WandOfCorrosion.class);
-		GameScene.add(gas);
-		Sample.INSTANCE.play(Assets.Sounds.GAS);
-
-		for (int i : PathFinder.NEIGHBOURS9) {
-			Char c = Actor.findChar(cell + i);
-			if (c != null) {
-				//Buff.affect(c, Ooze.class).set(Ooze.DURATION); idrk if I want this yet
-				CellEmitter.center(c.pos).burst(CorrosionParticle.SPLASH, 5);
-			}
-		}
-	}
-
-	private void applyMagicMissileDamage( int cell ) {
-		ImpBoss boss = (ImpBoss) ch;
-		Char enemy = Actor.findChar(cell);
-		if (enemy == null) return;
-
-		if (boss.hit(boss, enemy, true)) {
-			int dmg = Random.NormalIntRange(2, 8);
-			enemy.damage(dmg, new ImpBoss.LightningBolt());
-		} else {
-			enemy.sprite.showStatus(CharSprite.NEUTRAL, enemy.defenseVerb());
-		}
-	}
 
 	@Override
 	public void onComplete( Animation anim ) {

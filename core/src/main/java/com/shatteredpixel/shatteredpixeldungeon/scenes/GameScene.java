@@ -776,7 +776,7 @@ public class GameScene extends PixelScene {
 		}
 
 	}
-	
+
 	public void destroy() {
 		
 		//tell the actor thread to finish, then wait for it to complete any actions it may be doing.
@@ -1469,21 +1469,23 @@ public class GameScene extends PixelScene {
 	}
 
 	public static void flash( int color ) {
-		flash( color, true);
+		flash( color, true );
 	}
 
 	public static void flash( int color, boolean lightmode ) {
+		flash( color, lightmode, PixelScene.Fader.DEFAULT_FADE_TIME );
+	}
+
+	public static void flash( int color, boolean lightmode, float duration ) {
 		if (scene != null) {
-			//don't want to do this on the actor thread
 			ShatteredPixelDungeon.runOnRenderThread(new Callback() {
 				@Override
 				public void call() {
-					//greater than 0 to account for negative values (which have the first bit set to 1)
 					if (scene != null) {
 						if (color > 0 && color < 0x01000000) {
-							scene.fadeIn(0xFF000000 | color, lightmode);
+							scene.fadeIn(0xFF000000 | color, lightmode, duration);
 						} else {
-							scene.fadeIn(color, lightmode);
+							scene.fadeIn(color, lightmode, duration);
 						}
 					}
 				}

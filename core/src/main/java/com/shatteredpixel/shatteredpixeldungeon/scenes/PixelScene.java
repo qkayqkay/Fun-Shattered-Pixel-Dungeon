@@ -370,9 +370,13 @@ public class PixelScene extends Scene {
 			fadeIn( 0xFF000000, false );
 		}
 	}
-	
+
 	protected void fadeIn( int color, boolean light ) {
 		add( new Fader( color, light ) );
+	}
+
+	protected void fadeIn( int color, boolean light, float duration ) {
+		add( new Fader( color, light, duration ) );
 	}
 	
 	public static void showBadge( Badges.Badge badge ) {
@@ -419,38 +423,42 @@ public class PixelScene extends Scene {
 
 		return all.scale(1f/defaultZoom);
 	}
-	
+
 	protected static class Fader extends ColorBlock {
-		
-		private static float FADE_TIME = 1f;
-		
+
+		public static float DEFAULT_FADE_TIME = 1f;
+
 		private boolean light;
-		
 		private float time;
+		private float fadeTime;
 
 		private static Fader INSTANCE;
-		
+
 		public Fader( int color, boolean light ) {
+			this( color, light, DEFAULT_FADE_TIME );
+		}
+
+		public Fader( int color, boolean light, float fadeTime ) {
 			super( uiCamera.width, uiCamera.height, color );
-			
+
 			this.light = light;
-			
+			this.fadeTime = fadeTime;
+
 			camera = uiCamera;
-			
+
 			alpha( 1f );
-			time = FADE_TIME;
+			time = fadeTime;
 
 			if (INSTANCE != null){
 				INSTANCE.killAndErase();
 			}
 			INSTANCE = this;
 		}
-		
+
 		@Override
 		public void update() {
-			
 			super.update();
-			
+
 			if ((time -= Game.elapsed) <= 0) {
 				alpha( 0f );
 				parent.remove( this );
@@ -459,10 +467,10 @@ public class PixelScene extends Scene {
 					INSTANCE = null;
 				}
 			} else {
-				alpha( time / FADE_TIME );
+				alpha( time / fadeTime );
 			}
 		}
-		
+
 		@Override
 		public void draw() {
 			if (light) {
@@ -474,7 +482,8 @@ public class PixelScene extends Scene {
 			}
 		}
 	}
-	
+
+
 	private static class PixelCamera extends Camera {
 		
 		public PixelCamera( float zoom ) {

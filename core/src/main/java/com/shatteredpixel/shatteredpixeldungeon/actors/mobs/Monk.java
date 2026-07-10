@@ -22,8 +22,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
-import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
+import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.*;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Imp;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
@@ -35,7 +36,7 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
 public class Monk extends Mob {
-	
+	boolean hasMeditated = false;
 	{
 		spriteClass = MonkSprite.class;
 		
@@ -82,6 +83,11 @@ public class Monk extends Mob {
 	
 	@Override
 	protected boolean act() {
+		if(!hasMeditated && HP <= 0.9*HT){
+			meditate();
+			return true;
+		}
+
 		boolean result = super.act();
 		if (buff(Focus.class) == null && state == HUNTING && focusCooldown <= 0) {
 			Buff.affect( this, Focus.class );
@@ -138,6 +144,43 @@ public class Monk extends Mob {
 	public void restoreFromBundle( Bundle bundle ) {
 		super.restoreFromBundle( bundle );
 		focusCooldown = bundle.getInt( FOCUS_COOLDOWN );
+	}
+
+	private void meditate(){
+		Buff.affect(this, Meditate.class);
+		hasMeditated = true;
+	}
+
+	public static class Meditate extends FlavourBuff{
+		{
+			type = buffType.POSITIVE;
+			announced = true;
+		}
+
+		@Override
+		public int icon() {return BuffIndicator.MONK_ENERGY; }
+
+		@Override
+		public boolean attachTo(Char target) {
+			for (Buff b : target.buffs()){
+				if (b.type == Buff.buffType.NEGATIVE
+						&& !(b instanceof AllyBuff)
+						&& !(b instanceof LostInventory)){
+					b.detach();
+				}
+			}
+
+			Actor.delayChar(target, 5 * TICK);
+
+			int toHeal = Math.round((target.HT - target.HP)/5f);
+			if (toHeal > 0) {
+				Buff.affect(target, Healing.class).setHeal(toHeal, 0, 2);
+			}
+
+			Buff.affect(target, MonkEnergy.MonkAbility.Meditate.MeditateResistance.class, target.cooldown());
+
+			return super.attachTo(target);
+		}
 	}
 	
 	public static class Focus extends Buff {

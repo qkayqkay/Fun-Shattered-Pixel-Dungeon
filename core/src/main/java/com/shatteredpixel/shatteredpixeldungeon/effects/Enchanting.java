@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSprite;
 import com.watabou.noosa.Game;
+import com.watabou.utils.ColorMath;
 
 public class Enchanting extends ItemSprite {
 
@@ -40,6 +41,8 @@ public class Enchanting extends ItemSprite {
 
 	private int color;
 
+	private boolean rgb;
+
 	private Char target;
 
 	private Phase phase;
@@ -52,6 +55,7 @@ public class Enchanting extends ItemSprite {
 
 		if (item.glowing() != null) {
 			color = item.glowing().color;
+			rgb = item.glowing().rgb;
 		} else {
 			color = -1;
 		}
@@ -74,7 +78,12 @@ public class Enchanting extends ItemSprite {
 				scale.set( passed / duration );
 				break;
 			case STATIC:
-				if (color != -1) {
+				if (!rgb) {
+					if (color != -1) {
+						tint(color, passed / duration * 0.8f);
+					}
+				} else {
+					color = ColorMath.interpolate(passed / duration, 0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000);
 					tint(color, passed / duration * 0.8f);
 				}
 				break;

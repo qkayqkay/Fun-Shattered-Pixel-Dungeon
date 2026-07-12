@@ -22,6 +22,9 @@
 package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.special;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Bat;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Succubus;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -128,6 +131,15 @@ public class CrystalChoiceRoom extends SpecialRoom {
 		chest.type = Heap.Type.CHEST;
 		//opening the chest is optional, so it doesn't count for exploration bonus
 		chest.autoExplored = true;
+
+		if (Dungeon.depth < 5) {
+			Mob enemy1 = new Succubus();
+			Mob enemy2 = new Bat();
+			enemy1.pos = level.pointToCell(room1.center());
+			enemy2.pos = level.pointToCell(room2.center());
+			level.mobs.add(enemy1);
+			level.mobs.add(enemy2);
+		}
 
 		level.addItemToSpawn( new CrystalKey( Dungeon.depth ) );
 

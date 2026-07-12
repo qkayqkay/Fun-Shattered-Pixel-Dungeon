@@ -178,10 +178,12 @@ public abstract class Char extends Actor {
 		}
 	}
 
-	public String name(){
-		Rabies rab = Dungeon.hero.buff(Rabies.class);
-		if(rab != null && rab.stage >= 4){
-			return Messages.get(Char.class, "unknown");
+	public String name() {
+		if (Dungeon.hero != null) {
+			Rabies rab = Dungeon.hero.buff(Rabies.class);
+			if(rab != null && rab.stage >= 4){
+				return Messages.get(Char.class, "unknown");
+			}
 		}
 		return Messages.get(this, "name");
 	}

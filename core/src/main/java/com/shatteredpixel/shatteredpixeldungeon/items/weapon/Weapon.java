@@ -53,19 +53,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Friendly;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Polarized;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Sacrificial;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.curses.Wayward;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blazing;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blocking;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Blooming;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Chilling;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Corrupting;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Elastic;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Grim;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Kinetic;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Lucky;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Projecting;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Shocking;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Unstable;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.Vampiric;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.RunicBlade;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.Scimitar;
@@ -517,7 +505,7 @@ abstract public class Weapon extends KindOfWeapon {
 
 		public static final Class<?>[] uncommon = new Class<?>[]{
 				Blocking.class, Blooming.class, Elastic.class,
-				Lucky.class, Projecting.class, Unstable.class};
+				Lucky.class, Projecting.class, Unstable.class, Rockfall.class};
 
 		public static final Class<?>[] rare = new Class<?>[]{
 				Corrupting.class, Grim.class, Vampiric.class};

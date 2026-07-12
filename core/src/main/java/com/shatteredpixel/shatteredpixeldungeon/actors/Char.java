@@ -319,7 +319,7 @@ public abstract class Char extends Actor {
 		}
 	}
 
-	final public boolean attack( Char enemy ){
+	public boolean attack( Char enemy ){
 		return attack(enemy, 1f, 0f, 1f);
 	}
 	

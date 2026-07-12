@@ -21,15 +21,19 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Albino;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rat;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.RatKing;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.trinkets.RatSkull;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.painters.Painter;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.sewerboss.SewerBossEntranceRoom;
+import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 
 public class RatKingRoom extends SecretRoom {
@@ -66,8 +70,25 @@ public class RatKingRoom extends SecretRoom {
 		}
 
 		RatKing king = new RatKing();
-		king.pos = level.pointToCell(random( 2 ));
-		level.mobs.add( king );
+		Point kingPos = random(2);
+		king.pos = level.pointToCell(kingPos);
+		level.mobs.add(king);
+		
+		// Rat King's army
+		for (Point p : this.shrink().getPoints()) {
+			if (p.equals(kingPos)) continue;
+
+			float altChance = 1 / 20f * RatSkull.exoticChanceMultiplier();
+			Rat rat;
+			if (Random.Float() < altChance) {
+				rat = new Albino();
+			} else {
+				rat = new Rat();
+			}
+			rat.state = rat.WANDERING;
+			rat.pos = level.pointToCell(p);
+			level.mobs.add(rat);
+		}
 	}
 	
 	private static void addChest( Level level, int pos, int door ) {

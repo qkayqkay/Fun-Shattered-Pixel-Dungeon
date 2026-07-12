@@ -296,8 +296,6 @@ public abstract class Level implements Bundlable {
 							feeling = Feeling.NONE;
 						}
 				}
-			} else {
-				feeling = Feeling.AMNESIA; // For testing
 			}
 			if(Dungeon.depth == 1){
 				feeling = Feeling.AMNESIA;

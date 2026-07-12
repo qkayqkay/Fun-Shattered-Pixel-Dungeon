@@ -43,6 +43,7 @@ import com.watabou.noosa.MovieClip;
 import com.watabou.noosa.NoosaScript;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
+import com.watabou.utils.ColorMath;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
@@ -363,24 +364,30 @@ public class ItemSprite extends MovieClip {
 		}
 
 		if (visible && glowing != null) {
-			if (glowUp && (phase += Game.elapsed) > glowing.period) {
+
+			if (!glowing.rgb) {
+				if (glowUp && (phase += Game.elapsed) > glowing.period) {
+					glowUp = false;
+					phase = glowing.period;
+				} else if (!glowUp && (phase -= Game.elapsed) < 0) {
+					glowUp = true;
+					phase = 0;
+				}
+
+				float value = phase / glowing.period * 0.6f;
+
+				rm = gm = bm = 1 - value;
+				ra = glowing.red * value;
+				ga = glowing.green * value;
+				ba = glowing.blue * value;
+			} else {
+				phase += Game.elapsed;
+				if (phase >= glowing.period) phase -= glowing.period;
 				
-				glowUp = false;
-				phase = glowing.period;
-				
-			} else if (!glowUp && (phase -= Game.elapsed) < 0) {
-				
-				glowUp = true;
-				phase = 0;
-				
+				float value = phase / glowing.period;
+				int c = ColorMath.interpolate(value, 0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000);
+				tint(c, 0.7f);
 			}
-			
-			float value = phase / glowing.period * 0.6f;
-			
-			rm = gm = bm = 1 - value;
-			ra = glowing.red * value;
-			ga = glowing.green * value;
-			ba = glowing.blue * value;
 		}
 	}
 
@@ -399,7 +406,13 @@ public class ItemSprite extends MovieClip {
 		public float green;
 		public float blue;
 		public float period;
+		public boolean rgb = false; // Yes that's the best solution I could come up with
 		
+		public Glowing(boolean rgb, float period) {
+			this.rgb = rgb;
+			this.period = period;
+		}
+
 		public Glowing( int color ) {
 			this( color, 1f );
 		}

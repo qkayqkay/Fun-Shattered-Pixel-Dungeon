@@ -4,12 +4,14 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.buffs;
 import java.util.ArrayList;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.effects.FloatingText;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.RegularLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.ui.BuffIndicator;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Point;
@@ -31,7 +33,7 @@ public class Rabies extends Buff {
     }
 
     private static final int[] stage_thresholds = {3, 5, 7, 9, 12};
-    public int stage = 1;
+    public int stage = 5;
     int floorsTravelled = 0;
     int lastFloor = Dungeon.depth;
     int durationOnWater = 0;
@@ -48,12 +50,13 @@ public class Rabies extends Buff {
             floorsTravelled++;
         }
         // acumulates over 12 floors
+        /*
         if (floorsTravelled < stage_thresholds[0])       stage = 1; // does nothing
         else if (floorsTravelled < stage_thresholds[1])  stage = 2; // attack 20% faster
         else if (floorsTravelled < stage_thresholds[2])  stage = 3; // start become hydrophobic. You'll fail to drink hp pots and stepping on water makes you disoriented
         else if (floorsTravelled < stage_thresholds[3])  stage = 4; // delirious, and way more hydrophobic. You'll also break potions sometimes
         else if (floorsTravelled < stage_thresholds[4])  stage = 5; // start taking damage
-
+*/
         if(stage == 3) {
             waterStepMult = 0.04f;
             drinkFailProb = 0.30f;
@@ -80,7 +83,8 @@ public class Rabies extends Buff {
 
 
         if(stage == 5){
-            target.damage(1, Rabies.class);
+            int rabiesDamage = 1;
+            target.damage(rabiesDamage, this);
         }
 
         spend(TICK);

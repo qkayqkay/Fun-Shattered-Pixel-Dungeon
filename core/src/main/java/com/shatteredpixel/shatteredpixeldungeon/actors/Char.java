@@ -178,10 +178,12 @@ public abstract class Char extends Actor {
 		}
 	}
 
-	public String name(){
-		Rabies rab = Dungeon.hero.buff(Rabies.class);
-		if(rab != null && rab.stage >= 4){
-			return Messages.get(Char.class, "unknown");
+	public String name() {
+		if (Dungeon.hero != null) {
+			Rabies rab = Dungeon.hero.buff(Rabies.class);
+			if(rab != null && rab.stage >= 4){
+				return Messages.get(Char.class, "unknown");
+			}
 		}
 		return Messages.get(this, "name");
 	}
@@ -968,7 +970,7 @@ public abstract class Char extends Actor {
 			if (src instanceof ToxicGas)                                icon = FloatingText.TOXIC;
 			if (src instanceof Corrosion)                               icon = FloatingText.CORROSION;
 			if (src instanceof Poison)                                  icon = FloatingText.POISON;
-			if (src instanceof Rabies)                                  icon = FloatingText.POISON; //todo maybe an icon?
+			if (src instanceof Rabies)                                  icon = FloatingText.RABIES; //todo maybe an icon?
 			if (src instanceof Ooze)                                    icon = FloatingText.OOZE;
 			if (src instanceof Viscosity.DeferedDamage)                 icon = FloatingText.DEFERRED;
 			if (src instanceof Corruption)                              icon = FloatingText.CORRUPTION;

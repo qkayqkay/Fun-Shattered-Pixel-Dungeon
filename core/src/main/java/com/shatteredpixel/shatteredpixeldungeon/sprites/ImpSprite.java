@@ -109,7 +109,7 @@ public class ImpSprite extends MobSprite {
 	@Override
 	public void onComplete( Animation anim ) {
 		if (anim == die) {
-			emitter().burst( Speck.factory( Speck.WOOL ), 15 );
+			//emitter().burst( Speck.factory( Speck.WOOL ), 15 ); i genuinely wonder where this is used in game lol. Maybe when you scare him away? Can you scare the imp away? Never tried.
 			killAndErase();
 		} else {
 			super.onComplete( anim ); // handles attack == anim -> onAttackComplete(), zap == anim -> onZapComplete()

@@ -16,7 +16,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 public class GravityShift extends TargetedSpell {
 
     {
-        image = ItemSpriteSheet.PHASE_SHIFT;
+        image = ItemSpriteSheet.GRAVITY_SHIFT;
 		usesTargeting = true;
 	}
 

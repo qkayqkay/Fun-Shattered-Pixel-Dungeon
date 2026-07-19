@@ -27,11 +27,14 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.MissileSprite;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
+import com.watabou.utils.Random;
 
 public class HeavyBoomerang extends MissileWeapon {
 	
@@ -94,6 +97,7 @@ public class HeavyBoomerang extends MissileWeapon {
 		private int returnBranch;
 		
 		private int left;
+		private int delays;
 		
 		public void setup( HeavyBoomerang boomerang, int thrownPos, int returnPos, int returnDepth, int returnBranch){
 			this.boomerang = boomerang;
@@ -102,6 +106,7 @@ public class HeavyBoomerang extends MissileWeapon {
 			this.returnDepth = returnDepth;
 			this.returnBranch = returnBranch;
 			left = 5;
+			delays = 0;
 		}
 		
 		public int returnPos(){
@@ -121,6 +126,17 @@ public class HeavyBoomerang extends MissileWeapon {
 		public boolean act() {
 			if (returnDepth == Dungeon.depth && returnBranch == Dungeon.branch){
 				left--;
+
+				if (left <= 0) {
+					if (Random.Float() < 0.5f) {
+						int n = Random.Int( 5) + 1;
+						String delayReason = Messages.get(this, "delay_" + n);
+						GLog.w(delayReason);
+						left += 5;
+						delays++;
+					}
+				}
+
 				if (left <= 0){
 					final Char returnTarget = Actor.findChar(returnPos);
 					final Char target = this.target;

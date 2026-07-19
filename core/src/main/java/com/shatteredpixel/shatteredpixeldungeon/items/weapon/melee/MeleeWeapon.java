@@ -42,6 +42,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfForce;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
+import com.shatteredpixel.shatteredpixeldungeon.items.weapon.enchantments.StatTrak;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.CellSelector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -174,6 +175,10 @@ public class MeleeWeapon extends Weapon {
 		while (charger.partialCharge < 0 && charger.charges > 0) {
 			charger.charges--;
 			charger.partialCharge++;
+		}
+
+		if (enchantment != null && enchantment instanceof StatTrak) {
+			((StatTrak)enchantment).countAbility();
 		}
 
 		if (hero.heroClass == HeroClass.DUELIST

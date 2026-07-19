@@ -253,6 +253,7 @@ public class Assets {
 		public static final String CAVES    = "splashes/caves.jpg";
 		public static final String CITY     = "splashes/city.jpg";
 		public static final String HALLS    = "splashes/halls.jpg";
+		public static final String WEIRD_LEVEL = "splashes/weird_level.png";
 
 		public static class Title {
 			public static final String ARCHS         = "splashes/title/archs.png";

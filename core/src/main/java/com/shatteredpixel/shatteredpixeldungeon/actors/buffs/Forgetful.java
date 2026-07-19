@@ -28,7 +28,7 @@ public class Forgetful extends Buff {
         revivePersists = true;
     }
 
-    private static final float ACTIVATION_DELAY = 10f; // Activates every 10 turns for testing purposes, will be much larger in the final version (possibly randomized)
+    private static final float ACTIVATION_DELAY = 50f;
 
     @Override
     public boolean act() {
@@ -37,14 +37,14 @@ public class Forgetful extends Buff {
             return true;
         }
 
-        switch (Random.Int(3)) {
-            case 0:
+        switch (Random.Int(5)) {
+            case 0: // 20%
                 forgetConsumable();
                 break;
-            case 1:
+            case 1: // 20%
                 forgetEquipment();
                 break;
-            case 2:
+            default: // 60%
                 forgetRoom();
                 break;
         }

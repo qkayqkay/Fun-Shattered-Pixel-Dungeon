@@ -647,6 +647,7 @@ public class ItemSpriteSheet {
 	public static final int BREW_CAUSTIC    = BREWS+3;
 	public static final int BREW_AQUA       = BREWS+4;
 	public static final int BREW_UNSTABLE   = BREWS+5;
+	public static final int POTION_ASCENT   = BREWS+7;
 	
 	private static final int ELIXIRS        =                               xy(9, 26);  //8 slots
 	public static final int ELIXIR_HONEY    = ELIXIRS+0;
@@ -662,6 +663,7 @@ public class ItemSpriteSheet {
 			assignItemRect(i, 12, 14);
 
 		assignItemRect(BREW_AQUA, 9, 11);
+		assignItemRect(POTION_ASCENT, 10, 16);
 	}
 	
 	private static final int SPELLS         =                               xy(1, 27);  //16 slots
@@ -679,6 +681,7 @@ public class ItemSpriteSheet {
 	public static final int RETURN_BEACON   = SPELLS+11;
 	public static final int SUMMON_ELE      = SPELLS+12;
 
+	public static final int GRAVITY_SHIFT   = SPELLS+13;
 	static{
 		assignItemRect(WILD_ENERGY,     12, 11);
 		assignItemRect(PHASE_SHIFT,     12, 11);
@@ -693,6 +696,8 @@ public class ItemSpriteSheet {
 		assignItemRect(RECLAIM_TRAP,     8, 16);
 		assignItemRect(RETURN_BEACON,    8, 16);
 		assignItemRect(SUMMON_ELE,       8, 16);
+		
+		assignItemRect(GRAVITY_SHIFT, 12, 11);
 	}
 	
 	private static final int FOOD       =                                   xy(1, 28);  //16 slots
@@ -709,6 +714,7 @@ public class ItemSpriteSheet {
 	public static final int BERRY           = FOOD+10;
 	public static final int PHANTOM_MEAT    = FOOD+11;
 	public static final int SUPPLY_RATION   = FOOD+12;
+	public static final int COOKIE          = FOOD+13;
 	static{
 		assignItemRect(MEAT,            15, 11);
 		assignItemRect(STEAK,           15, 11);
@@ -723,6 +729,7 @@ public class ItemSpriteSheet {
 		assignItemRect(BERRY,           9,  11);
 		assignItemRect(PHANTOM_MEAT,    15, 11);
 		assignItemRect(SUPPLY_RATION,   16, 12);
+		assignItemRect(COOKIE,          14, 14);
 	}
 
 	private static final int HOLIDAY_FOOD   =                               xy(1, 29);  //16 slots

@@ -160,6 +160,7 @@ public class InterlevelScene extends PixelScene {
 				break;
 			case RETURN:
 				loadingDepth = returnDepth;
+				if (loadingDepth == 0) fadeTime = SLOW_FADE;
 				break;
 		}
 
@@ -212,6 +213,7 @@ public class InterlevelScene extends PixelScene {
 					}
 					break;
 			}
+		if (region <= 0) loadingAsset = Assets.Splashes.WEIRD_LEVEL;	
 		Random.popGenerator();
 		
 		if (DeviceCompat.isDebug()){
